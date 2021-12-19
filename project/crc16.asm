@@ -4,26 +4,24 @@ use16
 
 calc_crc16:       
     push  ebx
-    xor  ebx, ebx
-    xor  ecx, ecx
-    mov  ebx, [esp + 10]
-    mov  ecx, [esp + 6]
-    xor  eax, eax
-    test ebx, ebx
-    add  ebx, ecx
-    jle  calc_crc16_fast_exit
+    mov   ebx, [esp + 10]
+    mov   ecx, [esp + 6]
+    xor   eax, eax
+    test  ebx, ebx
+    add   ebx, ecx
+    jle   calc_crc16_fast_exit
 
 calc_crc16_loop:
 
-    mov  edx, eax
-    add  ecx, 1
-    sal  eax, 8
-    shr  dx, 8
-    xor  dl, BYTE [ecx-1]
+    mov   edx, eax
+    add   ecx, 1
+    sal   eax, 8
+    shr   dx, 8
+    xor   dl, BYTE [ecx-1]
     movzx edx, dl
-    xor  ax, WORD [_crc16+edx+edx]
-    cmp  ecx, ebx
-    jne  calc_crc16_loop
+    xor   ax, WORD [_crc16+edx+edx]
+    cmp   ecx, ebx
+    jne   calc_crc16_loop
 
 calc_crc16_fast_exit:
     pop  ebx
